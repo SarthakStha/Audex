@@ -31,22 +31,22 @@ def source_mic():
     r = s_r.Recognizer()
     mic = s_r.Microphone()
     while True:
-        try:
-            with mic as source:
-                print("Listening:....")
-                r.adjust_for_ambient_noise(source)
-                audio = r.listen(source)        
-        except KeyboardInterrupt:
-            pass
-    
-        print(r.recognize_sphinx(audio))
-        return
+        with mic as source:
+            print("Listening:....")
+            r.adjust_for_ambient_noise(source, duration= 0.2)
+            audio = r.listen(source)        
+        
+            print(r.recognize_google(audio))
+        try:    
+            return
+        except:
+            print("Sorry, I did not get that, Try that again.")
 
 def source_file(filename):
     r = s_r.Recognizer()
-    print("Listening:.....")
-    audio = r.listen(filename)
-    print(audio)
+    with s_r.AudioFile(filename) as source:
+        audio = r.listen(source)
+        print(r.recognize_google(audio))
     return
 
 def text_to_audio():
