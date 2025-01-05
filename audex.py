@@ -2,6 +2,7 @@ import pyaudio
 import speech_recognition as s_r
 import pyttsx3
 
+#prints the user option menu
 def menu():
     print("\nOptions:")
     print("1. Convert audio to text")
@@ -10,6 +11,8 @@ def menu():
     user_input = input("What would you like to do? ")
     return user_input
 
+# prints menu for audio to text and calls their respective functions as per the user
+#input
 def audio_to_text():
     while True:
         print("\nSelect your input source: ")
@@ -27,6 +30,7 @@ def audio_to_text():
             case _ :
                 print("Invalid choice. Try again.")
     
+#converts audio input from the mic to text on the terminal
 def source_mic():
     r = s_r.Recognizer()
     mic = s_r.Microphone()
@@ -42,13 +46,15 @@ def source_mic():
         except:
             print("Sorry, I did not get that, Try that again.")
 
+#converts audio input from a audio file to text on the terminal
 def source_file(filename):
     r = s_r.Recognizer()
     with s_r.AudioFile(filename) as source:
-        audio = r.listen(source)
+        audio = r.record(source)
         print(r.recognize_google(audio))
     return
 
+# prints the menu for text to audio and handles the function call as per the user's input
 def text_to_audio():
     filename = input("Enter the filename of the file you want to narrate: ")
     with open(filename, 'r') as input_file:
@@ -69,19 +75,24 @@ def text_to_audio():
                 case _:
                     print("Invalid choice. Try again.") 
 
+# takes the name of the input file as the argument
+# and narrates the text in the file
 def text_speaker(text):
     engine = pyttsx3.init()
     engine.say(text)
     engine.runAndWait()
+    return
 
+# takes the namr of the input file as the argument 
+# and ouputs an audio recording of the text file.
 def text_mp3(text):
     engine = pyttsx3.init()
     engine.save_to_file(text, 'sample.mp3')
     engine.runAndWait()
+    return
 
 def audex():
-    while True:
-        
+    while True:        
         match menu():
             case "1":
                 audio_to_text()
