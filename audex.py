@@ -1,4 +1,3 @@
-import pyaudio
 import speech_recognition as s_r
 import pyttsx3
 
@@ -29,19 +28,19 @@ def audio_to_text():
                 return
             case _ :
                 print("Invalid choice. Try again.")
-    
+
 #converts audio input from the mic to text on the terminal
 def source_mic():
     r = s_r.Recognizer()
     mic = s_r.Microphone()
     while True:
-        with mic as source:
-            print("Listening:....")
-            r.adjust_for_ambient_noise(source, duration= 0.2)
-            audio = r.listen(source)        
-        
-            print(r.recognize_google(audio))
-        try:    
+        try:
+            with mic as source:
+                print("Listening:....")
+                r.adjust_for_ambient_noise(source, duration= 0.2)
+                audio = r.listen(source)
+
+                print(r.recognize_google(audio))
             return
         except:
             print("Sorry, I did not get that, Try that again.")
@@ -55,8 +54,7 @@ def source_file(filename):
     return
 
 # prints the menu for text to audio and handles the function call as per the user's input
-def text_to_audio():
-    filename = input("Enter the filename of the file you want to narrate: ")
+def text_to_audio(filename):
     with open(filename, 'r') as input_file:
         text = input_file.read()
         while True:
@@ -73,7 +71,7 @@ def text_to_audio():
                     text_mp3(text)
                     return
                 case _:
-                    print("Invalid choice. Try again.") 
+                    print("Invalid choice. Try again.")
 
 # takes the name of the input file as the argument
 # and narrates the text in the file
@@ -83,7 +81,7 @@ def text_speaker(text):
     engine.runAndWait()
     return
 
-# takes the namr of the input file as the argument 
+# takes the namr of the input file as the argument
 # and ouputs an audio recording of the text file.
 def text_mp3(text):
     engine = pyttsx3.init()
@@ -92,12 +90,12 @@ def text_mp3(text):
     return
 
 def audex():
-    while True:        
+    while True:
         match menu():
             case "1":
                 audio_to_text()
             case "2":
-                text_to_audio()
+                text_to_audio(input("Enter the filename of the file you want to narrate: "))
             case "3":
                 return
             case _:
